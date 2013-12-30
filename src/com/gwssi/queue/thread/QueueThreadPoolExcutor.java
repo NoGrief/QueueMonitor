@@ -1,5 +1,6 @@
 package com.gwssi.queue.thread;
 
+import java.util.Date;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadFactory;
@@ -18,6 +19,26 @@ public class QueueThreadPoolExcutor extends ThreadPoolExecutor {
 	private static final Logger logger = Logger.getLogger(QueueThreadPoolExcutor.class);
 
 	private String typeId;
+	
+	private Date createTime;
+	
+	private Date updateTime;
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
 
 	public String getTypeId() {
 		return typeId;
@@ -107,13 +128,12 @@ public class QueueThreadPoolExcutor extends ThreadPoolExecutor {
 				}
 				throw new RuntimeException(e);
 			}
+			this.setUpdateTime(new Date());
 		}
 	}
 
 	@Override
 	protected void terminated() {
 		logger.debug("-----执行线程池已停止！------");
-		super.terminated();
 	}
-
 }

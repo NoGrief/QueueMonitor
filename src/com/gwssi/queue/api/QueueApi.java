@@ -1,6 +1,7 @@
 package com.gwssi.queue.api;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,21 @@ public class QueueApi {
 
 	public static QueueThreadPoolExcutor getQueueThreadPoolExcutor(String type) {
 		return ThreadWorkerDispatcher.threadPoolMap.get(type);
+	}
+
+	public static void removeQueueThreadPoolExcutor(final String type) {
+		synchronized (type) {
+			// 防止ConcurrentModificationException异常，先删除索引，在删除元素。
+			Iterator<String> threadKeyIterator = ThreadWorkerDispatcher.threadPoolMap.keySet().iterator();
+			while (threadKeyIterator.hasNext()) {
+				String typeId = threadKeyIterator.next();
+				if (typeId.equals(type)) {
+					logger.debug("从缓存中移除线程执行器！");
+					threadKeyIterator.remove();
+					//ThreadWorkerDispatcher.threadPoolMap.remove(type);
+				}
+			}
+		}
 	}
 
 	public static Map<String, QueueThreadPoolExcutor> getQueueThreadPoolExcutorMap() {
