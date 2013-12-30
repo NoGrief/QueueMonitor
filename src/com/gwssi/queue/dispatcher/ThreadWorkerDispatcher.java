@@ -1,5 +1,6 @@
 package com.gwssi.queue.dispatcher;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -53,6 +54,8 @@ public class ThreadWorkerDispatcher extends Observable implements Observer {
 				logger.debug("创建新的任务执行环境");
 				qtpe = new QueueThreadPoolExcutor(Config.THREAD_WORKER, Config.THREAD_WORKER, 0L, TimeUnit.SECONDS, taskWorker.threadCache);
 				qtpe.setTypeId(typeId);
+				qtpe.setCreateTime(new Date());
+				qtpe.setUpdateTime(new Date());
 				threadPoolMap.put(typeId, qtpe);
 			}
 			

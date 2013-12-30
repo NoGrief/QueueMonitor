@@ -110,7 +110,7 @@ public class TestServlet extends HttpServlet {
 			public void running() throws QueueBizRuntimeException {
 				logger.debug("Excute running");
 				try {
-					Thread.sleep(1000*60);
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					throw new QueueBizRuntimeException("", e);
 				}
@@ -153,7 +153,7 @@ public class TestServlet extends HttpServlet {
 		for (String typeId : taskType) {
 			for (int i = 0; i < 10; i++) {
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

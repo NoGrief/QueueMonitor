@@ -1,5 +1,6 @@
 package com.gwssi.queue.dispatcher;
 
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -44,6 +45,7 @@ public class TaskWorkerDispatcher implements Observer {
 			logger.info("任务调度器正在执行任务！任务流水号：" + task.getFlowId());
 			task.getTask().getTaskStatus().setOptStatus(3);
 			executorService.execute(task);
+			executorService.setUpdateTime(new Date());
 		}
 
 	}
