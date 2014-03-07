@@ -27,10 +27,22 @@ public class QueueManagerServlet extends HttpServlet {
 		String method = request.getParameter("method");
 		if ("swap".equals(method)) {
 			doSwap(request);
+		}else if("operate".equals(method)){
+			doOperate(request);
 		}
 	}
 
-	//method=swap&opt=1|0|0&flowId=40281d8143418322014341834d20000b&typeId=S002-1288928
+	private void doOperate(HttpServletRequest request) {
+		String op = request.getParameter("opt");
+		String typeId = request.getParameter("typeId");
+		String flowId = request.getParameter("flowId");
+		boolean delete = "2".equals(op) ? true : false;
+		if(delete){
+			QueueApi.operateDeletePrepareTask(typeId, flowId);
+		}
+	}
+
+	// method=swap&opt=1|0|0&flowId=40281d8143418322014341834d20000b&typeId=S002-1288928
 	private void doSwap(HttpServletRequest request) {
 		String op = request.getParameter("opt");
 		String typeId = request.getParameter("typeId");
@@ -40,6 +52,7 @@ public class QueueManagerServlet extends HttpServlet {
 		boolean top = opts[1].equals("1") ? true : false;
 		boolean bottom = opts[2].equals("1") ? true : false;
 		QueueApi.SwapPrepareTask(typeId, flowId, up, top, bottom);
+		
 	}
 
 }

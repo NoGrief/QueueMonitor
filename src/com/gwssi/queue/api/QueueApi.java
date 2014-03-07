@@ -173,4 +173,28 @@ public class QueueApi {
 			}
 		}
 	}
+
+	public static void operateDeletePrepareTask(String typeId, String flowId) {
+		TaskInfoStorage tis = ThreadWorkerDispatcher.taskInfoStorageMap.get(typeId);
+		String deleteEntryKey = "";
+		if (tis != null) {
+			LinkedHashMap<String, TaskThread> perparing = tis.PREPARING_TASK;
+			for (Entry<String, TaskThread> taskThreadEntrys : perparing.entrySet()) {
+				TaskThread tt = taskThreadEntrys.getValue();
+				String flowID = tt.getFlowId();
+				if (flowId.equals(flowID)) {
+					synchronized (tis.PREPARING_TASK_QUEUE) {
+						deleteEntryKey = taskThreadEntrys.getKey();
+						tis.PREPARING_TASK_QUEUE.remove(tt);
+						tis.runTask();
+						break;
+					}
+				}
+			}
+			if(!"".equals(deleteEntryKey)){
+				perparing.remove(deleteEntryKey);
+			}
+		}
+		
+	}
 }
