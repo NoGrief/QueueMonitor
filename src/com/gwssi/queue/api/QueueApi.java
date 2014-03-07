@@ -138,12 +138,14 @@ public class QueueApi {
 							currentPos = tis.PREPARING_TASK_QUEUE.indexOf(tt);
 							tis.PREPARING_TASK_QUEUE.remove(currentPos);
 							tis.PREPARING_TASK_QUEUE.set(0, tt);
+							tis.runTask();
 							return;
 						}
 						if (bottom) {
 							currentPos = tis.PREPARING_TASK_QUEUE.indexOf(tt);
 							tis.PREPARING_TASK_QUEUE.remove(currentPos);
 							tis.PREPARING_TASK_QUEUE.set(tis.PREPARING_TASK_QUEUE.size() - 1, tt);
+							tis.runTask();
 							return;
 						}
 						if (up) {
@@ -152,6 +154,7 @@ public class QueueApi {
 								TaskThread temptt = tis.PREPARING_TASK_QUEUE.get(currentPos - 1);
 								tis.PREPARING_TASK_QUEUE.set(currentPos - 1, tt);
 								tis.PREPARING_TASK_QUEUE.set(currentPos, temptt);
+								tis.runTask();
 								return;
 							}
 						} else if (!up) {
@@ -160,12 +163,12 @@ public class QueueApi {
 								TaskThread temptt = tis.PREPARING_TASK_QUEUE.get(currentPos - 1);
 								tis.PREPARING_TASK_QUEUE.set(currentPos + 1, tt);
 								tis.PREPARING_TASK_QUEUE.set(currentPos, temptt);
+								tis.runTask();
 								return;
 							}
 						}
 						break;
 					}
-
 				}
 			}
 		}
