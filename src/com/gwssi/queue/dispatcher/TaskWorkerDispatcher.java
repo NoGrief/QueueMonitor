@@ -16,7 +16,7 @@ public class TaskWorkerDispatcher implements Observer {
 	private static final Logger logger = Logger.getLogger(TaskWorkerDispatcher.class);
 
 	private String typeId;
-	
+
 	public String getTypeId() {
 		return typeId;
 	}
@@ -30,6 +30,7 @@ public class TaskWorkerDispatcher implements Observer {
 			TaskInfoStorage tis = QueueApi.getTaskInfoStorage(typeId);
 			QueueThreadPoolExcutor executorService = QueueApi.getQueueThreadPoolExcutor(typeId);
 			TaskThread task = null;
+			logger.info("线程池最大执行任务数量：" + Config.THREAD_WORKER + "，任务运行缓存中的任务数：" + tis.RUNNING_TASK.size());
 			if (tis.RUNNING_TASK.size() >= Config.THREAD_WORKER) {
 				logger.info("任务执行线程已满，等待线程池内任务完成！");
 				return;
@@ -51,8 +52,8 @@ public class TaskWorkerDispatcher implements Observer {
 	}
 
 	public synchronized void update(Observable o, Object arg) {
-			logger.info("任务调度器被通知执行调度！任务类型："+this.typeId);
-			excuteRun();
+		logger.info("任务调度器被通知执行调度！任务类型：" + this.typeId);
+		excuteRun();
 	}
 
 }

@@ -33,9 +33,7 @@ public class TaskQueueManager {
 							interval = 200;
 						}
 						Thread.sleep(Config.THREAD_POLL_TIME);
-						synchronized (taskQueueStorage) {
-							taskQueueStorage.pollTask();
-						}
+						taskQueueStorage.pollTask();
 					} catch (InterruptedException e) {
 						continue;
 					}
@@ -45,9 +43,7 @@ public class TaskQueueManager {
 	}
 
 	public static void putTask(ITaskObject task) {
-		synchronized (taskQueueStorage) {
-			taskQueueStorage.putTask(task);
-		}
+		taskQueueStorage.putTask(task);
 	}
 
 	public static void stopGetter() {
